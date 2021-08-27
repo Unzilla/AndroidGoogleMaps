@@ -34,10 +34,8 @@ import java.util.Locale;
 import static androidx.constraintlayout.motion.widget.Debug.getLocation;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
-
     private GoogleMap mMap;
     LocationManager locationManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,17 +48,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         isLocationEnabledOrNot();
         getLocation();
     }
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-    @Override     */
-
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
@@ -69,34 +56,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
-
     @Override
     public void onLocationChanged(Location location) {
         try {
 
             Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
             List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-
             double longitude = addresses.get(0).getLongitude();
             double latitude = addresses.get(0).getLatitude();
             LatLng latLng=new LatLng(latitude,longitude);
-            mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").snippet("Lat:"+ latitude +" Lon :"+ longitude).icon(BitmapDescriptorFactory.fromResource(R.drawable.icon)));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,1.2f));
-
-
-
-
-
-
+            mMap.addMarker(new MarkerOptions().position(latLng).title("My Current Location:").snippet("Latitude: "+latitude +","+"Longitude "+longitude).icon(BitmapDescriptorFactory.fromResource(R.drawable.rsz_map2)));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
-
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
+        } }
+        @Override
+    public void onStatusChanged(String provider, int status, Bundle extras){
 
     }
 
